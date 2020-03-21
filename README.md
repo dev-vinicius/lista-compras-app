@@ -1,4 +1,4 @@
-# Rocketseat-GoStarter
+# Lista Compras
 Projeto backend, frontend e mobile de lista de compras
 
 ## :rocket: Tecnologias
