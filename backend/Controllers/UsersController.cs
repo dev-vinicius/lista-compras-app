@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,23 +8,24 @@ using APIListaCompras.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace APIListaCompras.Controllers 
+namespace APIListaCompras.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase 
+    public class UsersController : ControllerBase
     {
         private readonly ApiContext _context;
         public UsersController(ApiContext context)
         {
             _context = context;
         }
-        
+
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]User user)
         {
+            ModelState.Clear();
             var userTemp = await Task.FromResult(_context
                                                  .Users
                                                  .SingleOrDefault(x => x.Email == user.Email && x.Password == user.Password));
@@ -35,7 +37,7 @@ namespace APIListaCompras.Controllers
             }
             else
             {
-                return NotFound("User not found.");
+                return NotFound(new { error = "User not found"});
             }
         }
 
@@ -57,7 +59,33 @@ namespace APIListaCompras.Controllers
             }
             else
             {
-                return NotFound("User not found.");
+                return NotFound(new { error = "User not found"});
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Store([FromBody] User user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    user.CreatedAt = DateTime.Now;
+                    user.UpdatedAt = DateTime.Now;
+                    await _context.Users.AddAsync(user);
+                    await _context.SaveChangesAsync();
+                    return Ok(user);
+                }
+                else
+                {
+                    var messages = user.ValidarModeloString();
+                    return BadRequest(new { error = messages });
+                }
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(new { error = e.Message });
             }
         }
     }
