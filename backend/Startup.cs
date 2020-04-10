@@ -34,10 +34,7 @@ namespace APIListaCompras
             services.AddControllers()
             .ConfigureApiBehaviorOptions(options =>
                                         {
-                                            //options.SuppressConsumesConstraintForFormFileParameters = true;
-                                            //options.SuppressInferBindingSourcesForParameters = true;
                                             options.SuppressModelStateInvalidFilter = true;
-                                            //options.SuppressMapClientErrors = true;
                                         });
             services.AddDbContext<ApiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
