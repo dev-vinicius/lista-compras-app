@@ -23,9 +23,8 @@ namespace APIListaCompras.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody]User user)
+        public async Task<IActionResult> Login(User user)
         {
-            ModelState.Clear();
             var userTemp = await Task.FromResult(_context
                                                  .Users
                                                  .SingleOrDefault(x => x.Email == user.Email && x.Password == user.Password));
@@ -37,7 +36,7 @@ namespace APIListaCompras.Controllers
             }
             else
             {
-                return NotFound(new { error = "User not found"});
+                return NotFound(new { error = "Usuário não encontrado"});
             }
         }
 
@@ -59,17 +58,17 @@ namespace APIListaCompras.Controllers
             }
             else
             {
-                return NotFound(new { error = "User not found"});
+                return NotFound(new { error = "Usuário não encontrado"});
             }
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Store([FromBody] User user)
+        public async Task<IActionResult> Store(User user)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (user.IsValid)
                 {
                     user.CreatedAt = DateTime.Now;
                     user.UpdatedAt = DateTime.Now;
@@ -79,8 +78,7 @@ namespace APIListaCompras.Controllers
                 }
                 else
                 {
-                    var messages = user.ValidarModeloString();
-                    return BadRequest(new { error = messages });
+                    return BadRequest(new { error = user.ValidationMessagesString() });
                 }
             }
             catch (System.Exception e)

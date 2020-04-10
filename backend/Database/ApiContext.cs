@@ -11,6 +11,8 @@ namespace APIListaCompras.Database
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<List> Lists { get; set; }
+        public DbSet<Item> Itens { get; set; }
         
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -35,5 +36,7 @@ namespace APIListaCompras.Models
         [Column("updated_at")]
         [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
+
+        public List<List> Lists { get; set; }
     }
 }

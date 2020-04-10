@@ -22,7 +22,7 @@ namespace APIListaCompras.Util
         [JsonIgnore]
         public Guid GlobalID { get; set; }
 
-        public List<string> ValidarModelo()
+        public List<string> ValidationMessages()
         {
             List<ValidationResult> resultadoValidacao = new List<ValidationResult>();
 
@@ -30,24 +30,34 @@ namespace APIListaCompras.Util
 
             Validator.TryValidateObject(this, contexto, resultadoValidacao, true);
 
-            resultadoValidacao.AddRange(this.ValidacaoLocal());
+            resultadoValidacao.AddRange(this.AdditionalValidation());
 
             return (from _r in resultadoValidacao
                     select _r.ErrorMessage).ToList();
         }
         
-        protected virtual List<ValidationResult> ValidacaoLocal()
+        protected virtual List<ValidationResult> AdditionalValidation()
         {
             return new List<ValidationResult>();
         }
 
-        public string ValidarModeloString()
+        public string ValidationMessagesString()
         {
             StringBuilder sbErros = new StringBuilder();
 
-            ValidarModelo().ForEach(x => sbErros.AppendLine(x));
+            ValidationMessages().ForEach(x => sbErros.AppendLine(x));
 
             return sbErros.ToString();
+        }
+
+        [NotMapped]
+        [JsonIgnore]
+        public bool IsValid 
+        {
+            get 
+            {
+                return ValidationMessagesString().Length == 0;
+            }
         }
 
         public object Clone()
