@@ -42,16 +42,12 @@ namespace APIListaCompras.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Show()
         {
-            return Ok(await Task.FromResult(_context.Users.ToList()));
-        }
-
-        [HttpGet("{id}")]
-        [Authorize]
-        public async Task<IActionResult> Show(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
+            var user = await Task.FromResult(_context.Users
+                                                .Where(x => x.Email == User.Identity.Name)
+                                                .ToList()
+                                                .FirstOrDefault());
             if (user != null)
             {
                 return Ok(user);
