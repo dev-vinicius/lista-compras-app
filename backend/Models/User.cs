@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json.Serialization;
 using APIListaCompras.Util;
 
@@ -38,5 +40,19 @@ namespace APIListaCompras.Models
         public DateTime? UpdatedAt { get; set; }
 
         public List<List> Lists { get; set; }
+
+        public void GenerateMD5Password()
+        {
+            using(MD5 hash = MD5.Create())
+            {
+                byte[] data = hash.ComputeHash(Encoding.UTF8.GetBytes(Password));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                Password = sBuilder.ToString();
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { MessageService } from './message.service';
+import { ApiErrorService } from './api-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +13,14 @@ import { MessageService } from './message.service';
 export class UserService {
 
   constructor(private http: HttpClient,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private apiErrorService: ApiErrorService) { }
 
   readByToken(): Observable<User> {
     return this.http.get<User>(`${environment.apiUrl}/users`).pipe(
       map((obj) => obj),
-      catchError((e) => this.errorHandler(e))
+      catchError((e) => this.apiErrorService.apiErrorHandler(e))
     );
   }
 
-  errorHandler(e: any): Observable<any> {
-    this.messageService.showMessage(e.error.error, true);
-    return EMPTY;
-  }
 }

@@ -27,16 +27,23 @@ namespace APIListaCompras.Controllers
         {
             var userTemp = await Task.FromResult(_context
                                                  .Users
-                                                 .SingleOrDefault(x => x.Email == user.Email && x.Password == user.Password));
+                                                 .SingleOrDefault(x => x.Email == user.Email));
 
             if (userTemp != null)
             {
-                var token = TokenService.GenerateToken(user);
-                return Ok(new { user, token });
+                user.GenerateMD5Password();
+                if (userTemp.Password.Equals(user.Password)){
+                    var token = TokenService.GenerateToken(user);
+                    return Ok(new { username = user.Email, access_token = token });
+                }
+                else
+                {
+                    return NotFound(new { error = "Usuário e/ou Senha incorretos."});
+                }
             }
             else
             {
-                return NotFound(new { error = "Usuário não encontrado"});
+                return NotFound(new { error = "Usuário e/ou Senha incorretos."});
             }
         }
 
@@ -50,6 +57,7 @@ namespace APIListaCompras.Controllers
                                                 .FirstOrDefault());
             if (user != null)
             {
+                user.Password = null;
                 return Ok(user);
             }
             else
@@ -66,6 +74,7 @@ namespace APIListaCompras.Controllers
             {
                 if (user.IsValid)
                 {
+                    user.GenerateMD5Password();
                     user.CreatedAt = DateTime.Now;
                     user.UpdatedAt = DateTime.Now;
                     await _context.Users.AddAsync(user);

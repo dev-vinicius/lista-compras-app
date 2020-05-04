@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, EMPTY } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MessageService } from './message.service';
-import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { ApiErrorService } from './api-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class LoginService {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private apiErrorService: ApiErrorService) { }
 
   login(user: string, pass: string): Observable<any> {
     localStorage.clear();
@@ -24,7 +25,7 @@ export class LoginService {
         this.router.navigate(['']);
         return obj;
       }),
-      catchError((e) => this.errorHandler(e))
+      catchError((e) => this.apiErrorService.apiErrorHandler(e))
     );
   }
 
@@ -35,10 +36,5 @@ export class LoginService {
 
   getToken(): string {
     return localStorage.getItem(environment.tokenKey);
-  }
-
-  errorHandler(e: any): Observable<any> {
-    this.messageService.showMessage(e.error.error, true);
-    return EMPTY;
   }
 }

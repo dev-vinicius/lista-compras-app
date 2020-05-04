@@ -127,7 +127,7 @@ namespace APIListaCompras.Controllers
                 var list = await _context.Lists.FindAsync(id);
                 if (list != null)
                 {
-                    _context.Remove(list);
+                    _context.Lists.Remove(list);
                     await _context.SaveChangesAsync();
                     return Ok();
                 }
