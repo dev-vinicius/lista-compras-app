@@ -9,6 +9,11 @@
                 <input matInput [(ngModel)]="user.password" placeholder="Senha" name="password" type="password"/>
             </mat-form-field>
         </form>
-        <button mat-raised-button (click)="login()" color="primary">Login</button>
+        <button mat-raised-button (click)="login()" color="primary" [disabled]="loading">
+            <span *ngIf="!loading; else loadingSpinner">Login</span>
+            <ng-template #loadingSpinner>
+                <span> Aguarde... </span>
+            </ng-template>
+        </button>
     </div>
 </div>

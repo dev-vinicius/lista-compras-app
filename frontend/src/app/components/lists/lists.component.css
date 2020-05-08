@@ -1,0 +1,13 @@
+.list-item {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #cacaca;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}

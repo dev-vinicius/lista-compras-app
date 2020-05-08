@@ -1,7 +1,10 @@
 .header {
     margin-bottom: 20px;
 }
-
-.header .logo {
-    max-height: 32px;
+.icon {
+    padding: 0 14px;
+}
+  
+.spacer {
+    flex: 1 1 auto;
 }

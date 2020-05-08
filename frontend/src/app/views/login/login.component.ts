@@ -19,13 +19,15 @@ export class LoginComponent implements OnInit {
     created_at: null,
     updated_at: null
   };
+  loading = false;
 
   ngOnInit(): void {
   }
 
   login(): void {
-    this.loginService.login(this.user.email, this.user.password).subscribe(() => {
-      
+    this.loading = true;
+    this.loginService.login(this.user.email, this.user.password).subscribe(null, null, () => {
+      this.loading = false;
     });
   }
 }
