@@ -4,6 +4,6 @@ ListaCompras/Client/obj
 ListaCompras/Server/bin
 ListaCompras/Server/obj
 ListaCompras/Server/appsettings.json
-ListaCompras/Client/appsettings.Development.json
+ListaCompras/Server/appsettings.Development.json
 ListaCompras/Shared/bin
 ListaCompras/Shared/obj
