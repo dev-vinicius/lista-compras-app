@@ -1,17 +1,21 @@
-<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <NotAuthorized>
-                <RedirectToLogin />
-            </NotAuthorized>
-        </AuthorizeRouteView>
-    </Found>
-    <NotFound>
-        <CascadingAuthenticationState>
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeView>
+                <Authorized>
+                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                </Authorized>
+                <NotAuthorized>
+                    <LayoutView Layout="@typeof(LoginLayout)">
+                        <Login />
+                    </LayoutView>
+                </NotAuthorized>
+            </AuthorizeView>
+        </Found>
+        <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
                 <p>404 ! Você solicitou um recurso inexistente no site :/</p>
             </LayoutView>
-        </CascadingAuthenticationState>
-    </NotFound>
-</Router>
-
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

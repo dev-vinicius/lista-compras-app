@@ -90,6 +90,35 @@ app {
             border-radius: .25rem;
         }
 
+header {
+    display: flex;
+    height: 64px;
+    align-items: center;
+    background-color: indigo;
+    color: white;
+}
+
+header > span {
+    align-self: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+@media (min-width: 1024px) {
+    main {
+        width: 1024px;
+        margin: 0 auto;
+        padding: 16px;
+    }
+}
+
 .validation-message {
     color: #dc3545;
     font-size: 0.9rem;

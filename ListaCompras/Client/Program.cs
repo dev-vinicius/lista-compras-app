@@ -17,12 +17,13 @@ namespace ListaCompras.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddSingleton<AuthenticationStateProvider, CustomAuthStateProvider>();
-            builder.Services.AddSingleton<LoginService>();
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+            builder.Services.AddScoped<LoginService>();
             builder.Services.AddSingleton<LoadingService>();
             builder.Services.AddSingleton<MessageService>();
+
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
 
