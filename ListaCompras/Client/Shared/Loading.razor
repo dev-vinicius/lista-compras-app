@@ -1,0 +1,32 @@
+﻿@inject LoadingService LoadingService
+
+@if (show)
+{
+    <div class="loader">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool show = false;
+    protected override void OnInitialized()
+    {
+        LoadingService.OnLoadingEvent += OnLoadingEvent;
+    }
+    public void OnLoadingEvent(object sender, EventArgs e)
+    {
+        var args = (LoadingService.LoadingEventArgs)e;
+        show = args.Show;
+        StateHasChanged();
+    }
+
+}

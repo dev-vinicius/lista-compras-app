@@ -16,7 +16,7 @@ namespace ListaCompras.Shared.Models
         public int Id { get; set; }
 
         [Column("name")]
-        [Required(ErrorMessage = "O campo [Nome] é obrigatório.")]
+        //[Required(ErrorMessage = "O campo [Nome] é obrigatório.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo [Nome] deve conter de 3 a 100 caracteres.")]
         public string Name { get; set; }
 

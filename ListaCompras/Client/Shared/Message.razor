@@ -1,0 +1,63 @@
+﻿@inject MessageService MessageService
+
+<div class="snackbar @type @snackToggle">
+    <div class="snackbar-text">
+        @message
+    </div>
+    <div class="snackbar-action" @onclick="@HandleHideClick">
+        X
+    </div>
+</div>
+
+@code {
+    private string snackToggle = string.Empty;
+    private string message = string.Empty;
+    private string type = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        MessageService.OnShowMessage += ShowMessage;
+        MessageService.OnHideMessage += HideMessage;
+    }
+
+    private void ShowMessage(object sender, EventArgs e)
+    {
+        var args = (MessageService.MessageArgs)e;
+        message = args.Message;
+        snackToggle = "fade-in";
+        type = GetMessageType(args.MessageType);
+        StateHasChanged();
+    }
+
+    private void HideMessage(object sender, EventArgs e)
+    {
+        if (snackToggle != "fade-out")
+        {
+            snackToggle = "fade-out";
+            message = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    private void HandleHideClick()
+    {
+        HideMessage(null, null);
+    }
+
+    private string GetMessageType(MessageService.MessageType type)
+    {
+        switch (type)
+        {
+            case MessageService.MessageType.INFO:
+                return "info";
+            case MessageService.MessageType.SUCCESS:
+                return "success";
+            case MessageService.MessageType.WARNING:
+                return "warning";
+            case MessageService.MessageType.DANGER:
+                return "danger";
+            default:
+                return string.Empty;
+        }
+    }
+}

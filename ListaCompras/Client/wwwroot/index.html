@@ -4,16 +4,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ListaCompras</title>
+    <title>Lista Compras</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/loader.css" rel="stylesheet" />
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app>
+        <div class="splash">
+            <img src="assets/logo.png" alt="Lista Compras" height="80" width="80">
+            <h2>Lista Compras App</h2>
+            <div class="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.

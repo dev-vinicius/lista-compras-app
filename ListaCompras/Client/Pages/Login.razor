@@ -1,0 +1,56 @@
+@layout LoginLayout
+@page "/login"
+
+@inject LoginService LoginService
+@inject LoadingService LoadingService
+@inject MessageService MessageService
+@inject NavigationManager NavigationManager
+
+<div class="login">
+    <div class="card-login">      
+        <h3><span class="oi oi-person"></span> Login</h3>
+        <EditForm Model="user" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <label for="email">E-mail</label>
+            <input type="email" @bind="user.Email" class="form-control" id="email" placeholder="exemplo@gmail.com">
+            <ValidationMessage For="@(() => user.Email)" />
+                        
+            <label for="password">Senha</label>
+            <input type="password" @bind="user.Password" class="form-control" id="password" placeholder="Senha">
+            <ValidationMessage For="@(() => user.Password)" />
+                    
+            <button type="submit" class="btn info">Entrar</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private User user = new User();
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            LoadingService.StartLoading();
+            var result = await LoginService.Login(user);
+
+            if (result != null && result.error == null)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                LoadingService.StopLoading();
+                MessageService.ShowMessage(result.error.ToString(),
+                                           MessageService.MessageType.DANGER);
+            }
+        }
+        catch(Exception e)
+        {
+            LoadingService.StopLoading();
+            MessageService.ShowMessage($"Erro: {e.Message}",
+                                       MessageService.MessageType.DANGER);
+        }
+    }
+}
+  
